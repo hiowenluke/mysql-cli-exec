@@ -59,7 +59,8 @@ const me = {
 
 	createCommand(sql, config) {
 		const hupString = !config ? '' : typeof config === 'string' && /-u/.test(config) ? config : this.convertHupToString(config);
-		return `mysql ${hupString} -e "${sql.replace(/"/g, '\\"')}"`;
+		sql = sql.replace(/([`"'])/g, '\\$1'); // replace "'" to "\'"
+		return `mysql ${hupString} -e "${sql}"`;
 	},
 
 	stdoutToArray(stdout) {
