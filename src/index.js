@@ -1,49 +1,54 @@
 
 const shell = require('shelljs');
+const config = require('../__config');
 
 const me = {
-	defaultConfig: null,
+	currentServerConfig: null,
 
-	init(config) {
-		this.defaultConfig = config;
+	init(serverConfig, myConfig) {
+		this.currentServerConfig = serverConfig;
+
+		// In some case, myConfig is included by serverConfig.
+		// For simplicity, merge serverConfig and myConfig, then pass it to config.
+		config.init(Object.assign({}, serverConfig, myConfig));
 	},
 
-	getAvailableConfig(config) {
-		if (!config) {
-			config = this.defaultConfig;
+	getAvailableConfig(serverConfig) {
+		if (!serverConfig) {
+			serverConfig = this.currentServerConfig;
 		}
 
 		else
 
-		// If the server config is a host name
-		if (typeof config === 'string') {
-			const host = config;
+		// If the server serverConfig is a host name
+		if (typeof serverConfig === 'string') {
+			const host = serverConfig;
 
-			// Use the default config
-			config = Object.create(this.defaultConfig);
+			// Use the default serverConfig
+			serverConfig = Object.create(this.currentServerConfig);
 
 			// Apply the new host name
-			config.host = host;
+			serverConfig.host = host;
 		}
 
-		return config;
+		return serverConfig;
 	},
 
-	convertHupToString(config) {
-		config = this.getAvailableConfig(config);
-		const {host, username, password} = config;
+	convertHupToString(serverConfig) {
+		serverConfig = this.getAvailableConfig(serverConfig);
+		const {host, username, password} = serverConfig;
 		const hostStr = host ? `-h ${host}` : '';
 		return ` ${hostStr} -u${username} -p${password} `;
 	},
 
-	getHupString(config) {
-		const availableConfig = this.getAvailableConfig(config);
+	getHupString(serverConfig) {
+		const availableConfig = this.getAvailableConfig(serverConfig);
 		const str = this.convertHupToString(availableConfig);
 		return str;
 	},
 
-	createCommands(sqls, config, isReturnArray) {
-		const hupString = this.getHupString(config);
+	createCommands(sqls, serverConfig, isReturnArray) {
+		const hupString = this.getHupString(serverConfig);
 
 		if (typeof sqls === 'string') {
 			sqls = [sqls];
@@ -57,8 +62,8 @@ const me = {
 		return isReturnArray ? arr : arr.join(' && ');
 	},
 
-	createCommand(sql, config) {
-		const hupString = !config ? '' : typeof config === 'string' && /-u/.test(config) ? config : this.convertHupToString(config);
+	createCommand(sql, serverConfig) {
+		const hupString = !serverConfig ? '' : typeof serverConfig === 'string' && /-u/.test(serverConfig) ? serverConfig : this.convertHupToString(serverConfig);
 		sql = sql.replace(/([`"'])/g, '\\$1'); // replace "'" to "\'"
 		return `mysql ${hupString} -e "${sql}"`;
 	},
@@ -84,8 +89,10 @@ const me = {
 		return result;
 	},
 
-	do(sql, config){
-		const commands = this.createCommands(sql, config);
+	do(sql, serverConfig){
+		const commands = this.createCommands(sql, serverConfig);
+		config.isShowCliCommands && console.log(commands);
+
 		const out = shell.exec(commands, {silent: true});
 		if (out.code !== 0) console.log(out.stderr);
 
@@ -97,4 +104,5 @@ const me = {
 	}
 };
 
+me.config = config;
 module.exports = me;
