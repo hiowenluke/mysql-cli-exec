@@ -1,7 +1,7 @@
 
 # MySQL CLI Exec
 
-Execute the MySQL sql statements in CLI, return the result as an object array.
+A mysql command-line tool for [Node.js](https://nodejs.org). Execute the MySQL sql statements in CLI, return the result as an object array.
 
 
 
