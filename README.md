@@ -47,13 +47,13 @@ const result = myCli.exec(sql);
 The result looks like below:
 ```js
 [
-	{
-		variable: 'diagnostics.allow_i_s_tables',
-		value: 'OFF',
-		set_time: '2019-09-20 06:53:50',
-		set_by: null
-	},
-	...
+    {
+        variable: 'diagnostics.allow_i_s_tables',
+        value: 'OFF',
+        set_time: '2019-09-20 06:53:50',
+        set_by: null
+    },
+    ...
 ]
 ```
 
