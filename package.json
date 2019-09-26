@@ -1,6 +1,6 @@
 {
   "name": "mysql-cli-exec",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Execute the MySQL sql statements in CLI, return the result as an object array.",
   "main": "index.js",
   "scripts": {
