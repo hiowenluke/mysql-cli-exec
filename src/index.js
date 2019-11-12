@@ -31,6 +31,10 @@ const me = {
 			serverConfig.host = host;
 		}
 
+		if (!serverConfig.port) {
+			serverConfig.port = 3306;
+		}
+
 		return serverConfig;
 	},
 
