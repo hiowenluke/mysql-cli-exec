@@ -1,6 +1,7 @@
 
 const shell = require('shelljs');
 const config = require('../__config');
+const isOnline = require('./isOnline');
 
 const me = {
 	currentServerConfig: null,
@@ -105,7 +106,12 @@ const me = {
 
 	exec(...args) {
 		return this.do(...args);
-	}
+	},
+
+	async isOnline(serverConfig) {
+		const config = this.getAvailableConfig(serverConfig);
+		return await isOnline(config.host, config.port);
+	},
 };
 
 me.config = config;
