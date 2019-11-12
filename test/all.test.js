@@ -48,4 +48,8 @@ describe('MySql CLI Exec', () => {
 		expect(Object.keys(result[0]).length > 0).to.be.true;
 	});
 
+	it(`.isOnline()`, async () => {
+		const result = await myCli.isOnline();
+		expect(result).to.be.true;
+	});
 });
