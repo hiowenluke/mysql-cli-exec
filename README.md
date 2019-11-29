@@ -3,8 +3,6 @@
 
 A MySQL command-line tool for [Node.js](https://nodejs.org). Execute the MySQL sql statements in CLI, return the result as an object array.
 
-
-
 ## Installation
 
 Install:
@@ -16,10 +14,9 @@ Test:
 ```sh
 git clone https://github.com/hiowenluke/mysql-cli-exec
 cd mysql-cli-exec
+npm install
 npm test
 ```
-
-
 
 ## Usage
 
@@ -101,8 +98,6 @@ const sql = `
 const result = myCli.exec(sql); // myCli.do(sql)
 result.length > 0 // true
 ```
-
-
 
 ## License
 
