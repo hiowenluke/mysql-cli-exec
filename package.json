@@ -15,5 +15,13 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^5.2.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiowenluke/mysql-cli-exec.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hiowenluke/mysql-cli-exec/issues"
+  },
+  "homepage": "https://github.com/hiowenluke/mysql-cli-exec#readme"
 }
